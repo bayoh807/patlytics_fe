@@ -1,1 +1,0 @@
-{"kind":"FETCH","data":{"headers":{"content-length":"92","content-type":"application/json; charset=utf-8","date":"Tue, 05 Nov 2024 15:04:23 GMT"},"body":"IktleTogJ1NlYXJjaFJlcS5LZXl3b3JkJyBFcnJvcjpGaWVsZCB2YWxpZGF0aW9uIGZvciAnS2V5d29yZCcgZmFpbGVkIG9uIHRoZSAncmVxdWlyZWQnIHRhZyI=","status":200,"url":"http://dev-be/search"},"revalidate":31536000,"tags":[]}

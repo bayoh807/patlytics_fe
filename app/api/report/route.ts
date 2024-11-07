@@ -3,7 +3,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const queryString = searchParams.toString(); // 直接生成查詢字串
 
-    const response = await fetch(`http://dev-be/report?${queryString}`, {
+    const response = await fetch(`http://${process.env.API_URL}/report?${queryString}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

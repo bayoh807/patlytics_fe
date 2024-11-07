@@ -4,7 +4,7 @@ import {
     Card, CardBody, Divider,Button,
     Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure
 } from "@nextui-org/react";
-
+import Lodash from 'lodash';
 
 import React, {  FormEvent,useState,useEffect } from 'react'
 interface PatentAnalysis {
@@ -47,6 +47,7 @@ const Report = ({data} : { data ?: PatentAnalysis }) => {
     }
 
     const handleShowData = (item : PatentAnalysis) => {
+
         setShowData(item)
     }
 
@@ -70,12 +71,15 @@ const Report = ({data} : { data ?: PatentAnalysis }) => {
         };
     }, []);
 
+
     return (
         <>
             {
                 localData.length > 0 && (
                     <div className="py-3 max-w-[800px] w-[100%]">
                         <DataListModal handleShowData={handleShowData} items={localData} />
+                        <Button color={  JSON.stringify(data) === JSON.stringify(showData) ? "default" : "primary"} className="mx-2" onClick={ () => handleShowData(data) }
+                        disabled={  JSON.stringify(data) === JSON.stringify(showData)  }>Current Report</Button>
                     </div>
                 )
             }

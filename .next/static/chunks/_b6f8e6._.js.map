@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/components/InputCard.tsx"],"sourcesContent":["\"use client\"\n\nimport {Card, CardBody, Input,Button } from \"@nextui-org/react\";\nimport React, {  FormEvent } from 'react'\n\ninterface InputCardProps {\n    handleSubmit: React.FormEventHandler<HTMLFormElement>;\n}\n\nconst InputCard = () => {\n    async function handleSubmit(event: FormEvent<HTMLFormElement>) {\n        event.preventDefault()\n        console.log(123)\n    }\n    return (\n        <>\n            <Card className=\"max-w-[800px] py-4 w-[100%]\">\n                <form onSubmit={handleSubmit}>\n                    <CardBody className=\"flex flex-row\">\n                        <Input className=\"mx-2\"/>\n                        <Button type=\"submit\">\n                            submit\n                        </Button>\n                    </CardBody>\n                </form>\n            </Card>\n        </>\n    );\n};\n\n\nexport default InputCard\n"],"names":[],"mappings":";;;;;;;;;AAAA;;;AASA,MAAM,YAAY;IACd,eAAe,aAAa,KAAiC;QACzD,MAAM,cAAc;QACpB,QAAQ,GAAG,CAAC;IAChB;IACA,qBACI;kBACI,cAAA,6LAAC,gNAAA,CAAA,OAAI;YAAC,WAAU;sBACZ,cAAA,6LAAC;gBAAK,UAAU;0BACZ,cAAA,6LAAC,yNAAA,CAAA,WAAQ;oBAAC,WAAU;;sCAChB,6LAAC,mNAAA,CAAA,QAAK;4BAAC,WAAU;;;;;;sCACjB,6LAAC,sNAAA,CAAA,SAAM;4BAAC,MAAK;sCAAS;;;;;;;;;;;;;;;;;;;;;;;AAQ9C;KAnBM;uCAsBS"}},
-    {"offset": {"line": 67, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}

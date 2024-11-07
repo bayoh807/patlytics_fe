@@ -39,6 +39,7 @@ const Report = ({data} : { data ?: PatentAnalysis }) => {
     const handleClearData = () => {
         localStorage.removeItem("reports")
         setLocalData([])
+        setIsSaved(false)
     }
     const handleSave = () => {
 

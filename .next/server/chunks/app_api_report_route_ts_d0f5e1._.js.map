@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/api/report/route.ts"],"sourcesContent":["\nexport async function GET(request) {\n    const { searchParams } = new URL(request.url);\n    const queryString = searchParams.toString(); // 直接生成查詢字串\n\n    const response = await fetch(`http://dev-be/report?${queryString}`, {\n        method: \"GET\",\n        headers: {\n            \"Content-Type\": \"application/json\",\n        },\n    });\n\n\n    const data = await response.json();\n\n    return new Response(JSON.stringify(data), {\n        status: response.status,\n        headers: {\n            \"Content-Type\": \"application/json\",\n        },\n    });\n\n}\n"],"names":[],"mappings":";;;AACO,eAAe,IAAI,OAAO;IAC7B,MAAM,EAAE,YAAY,EAAE,GAAG,IAAI,IAAI,QAAQ,GAAG;IAC5C,MAAM,cAAc,aAAa,QAAQ,IAAI,WAAW;IAExD,MAAM,WAAW,MAAM,MAAM,CAAC,qBAAqB,EAAE,YAAY,CAAC,EAAE;QAChE,QAAQ;QACR,SAAS;YACL,gBAAgB;QACpB;IACJ;IAGA,MAAM,OAAO,MAAM,SAAS,IAAI;IAEhC,OAAO,IAAI,SAAS,KAAK,SAAS,CAAC,OAAO;QACtC,QAAQ,SAAS,MAAM;QACvB,SAAS;YACL,gBAAgB;QACpB;IACJ;AAEJ"}},
+    {"offset": {"line": 25, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

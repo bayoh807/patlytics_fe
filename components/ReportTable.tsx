@@ -6,7 +6,7 @@ import {
 } from "@nextui-org/react";
 import Lodash from 'lodash';
 
-import React, {  FormEvent,useState,useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 interface PatentAnalysis {
     createdAt?: string
     patent_id: string;
@@ -35,6 +35,10 @@ const Report = ({data} : { data ?: PatentAnalysis }) => {
         let storageData = localStorage.getItem("reports")
 
         return JSON.parse(storageData)
+    }
+    const handleClearData = () => {
+        localStorage.removeItem("reports")
+        setLocalData([])
     }
     const handleSave = () => {
 
@@ -77,7 +81,7 @@ const Report = ({data} : { data ?: PatentAnalysis }) => {
             {
                 localData.length > 0 && (
                     <div className="py-3 max-w-[800px] w-[100%]">
-                        <DataListModal handleShowData={handleShowData} items={localData} />
+                        <DataListModal handleShowData={handleShowData} handleClearData={handleClearData} items={localData} />
                         <Button color={  JSON.stringify(data) === JSON.stringify(showData) ? "default" : "primary"} className="mx-2" onClick={ () => handleShowData(data) }
                         disabled={  JSON.stringify(data) === JSON.stringify(showData)  }>Current Report</Button>
                     </div>
@@ -191,7 +195,7 @@ const Assessment = ({ assessment } : {assessment: string|undefined}) => {
         </>
     )
 }
-const DataListModal = ({items,handleShowData} : {items:PatentAnalysis[] ,handleShowData : Function}) => {
+const DataListModal = ({items,handleShowData,handleClearData} : {items:PatentAnalysis[] ,handleShowData : Function,handleClearData : Function}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [scrollBehavior, setScrollBehavior] = React.useState("inside");
 
@@ -235,9 +239,15 @@ const DataListModal = ({items,handleShowData} : {items:PatentAnalysis[] ,handleS
                                     })
                                 }
                             </ModalBody>
-                            <ModalFooter>
+                            <ModalFooter className="flex flex-row justify-between ">
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
+                                </Button>
+                                <Button color="warning" onPress={ () => {
+                                    onClose()
+                                    handleClearData()
+                                }}>
+                                    Clear Records
                                 </Button>
 
                             </ModalFooter>

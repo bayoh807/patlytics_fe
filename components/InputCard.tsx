@@ -47,7 +47,7 @@ const InputCard = ({ handleGetReport} :{handleGetReport : Function} ) => {
 
                         </div>
                        <div>
-                           <Button type="submit" isDisabled={isSubmit}>
+                           <Button type="submit" color={ isSubmit ? "default" : "primary"} isDisabled={isSubmit}>
                                { isSubmit ? "Loading" : "Submit" }
                            </Button>
                        </div>

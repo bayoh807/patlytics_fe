@@ -14,7 +14,7 @@ This is patlytics's frontend of interview
 ## How to Use
 
 ```bash
-echo API_URL="{url}" > .env
+echo API_URL="https://{url}" > .env
 ```
 
 ```bash

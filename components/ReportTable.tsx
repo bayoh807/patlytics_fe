@@ -8,6 +8,7 @@ import {
 
 import React, {  FormEvent,useState,useEffect } from 'react'
 interface PatentAnalysis {
+    createdAt?: string
     patent_id: string;
     company_name: string;
     analysis_date: string;
@@ -25,32 +26,99 @@ interface InfringingProduct {
     specific_features: string[];
 }
 const Report = ({data} : { data : PatentAnalysis }) => {
+
+    const [localData, setLocalData] = useState([]);
+    const [isSaved, setIsSaved] = useState(false);
+    const [showData, setShowData] = useState<PatentAnalysis>(data);
+    const getLocalData = () : Array<any>=> {
+        let storageData = localStorage.getItem("reports")
+
+        return JSON.parse(storageData)
+    }
+    const handleSave = () => {
+
+        setIsSaved(true)
+        let time = new Date();
+        data.createdAt = time.toLocaleString();
+        const updatedLocalData = [...localData, data];
+        setLocalData(updatedLocalData)
+        localStorage.setItem("reports", JSON.stringify(updatedLocalData));
+    }
+
+    const handleShowData = (item : PatentAnalysis) => {
+        setShowData(item)
+    }
+
+    useEffect(() => {
+        return () => {
+            console.log(1)
+
+        };
+    }, [showData]);
+
+    useEffect(() => {
+        return () => {
+            setShowData(data)
+            setIsSaved(false)
+
+        };
+    }, [data]);
+
+
+    useEffect(() => {
+        return () => {
+
+            let getData = getLocalData()
+            if (Array.isArray(getData) && getData.length > 0) {
+                setLocalData(getData)
+            }
+
+        };
+    }, []);
+
     return (
         <>
             {
-                data?.analysis_date && (
-                    <div className="pt-3 max-w-[800px] w-[100%]">
-                        <div className="flex flex-row justify-between items-end ">
-                            <div className="flex flex-row">
-                                <div className="w-24 flex flex-col">
-                                    <span>Patent:</span>
-                                    <span>Company:</span>
-                                    <span>Date:</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span>{data.patent_id}</span>
-                                    <span>{data.company_name}</span>
-                                    <span>{data.analysis_date}</span>
-                                </div>
-                            </div>
-                            <div className="w-24 flex flex-col">
-                                <Button color="primary">Export</Button>
-                            </div>
-                        </div>
-                        <ReportTable products={data.analyze?.top_infringing_products}/>
-                        <Assessment assessment={data.analyze?.overall_risk_assessment} />
+                localData.length > 0 && (
+                    <div className="py-3 max-w-[800px] w-[100%]">
+                        <DataListModal handleShowData={handleShowData} items={localData} />
                     </div>
                 )
+            }
+
+            {
+                showData?.analysis_date && (
+                    <div className="pt-3 max-w-[800px] w-[100%]">
+
+
+                            <div className="flex flex-row justify-between items-end ">
+                                <div className="flex flex-row">
+                                    <div className="w-24 flex flex-col">
+                                        <span>Patent:</span>
+                                        <span>Company:</span>
+                                        <span>Date:</span>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span>{data.patent_id}</span>
+                                        <span>{data.company_name}</span>
+                                        <span>{data.analysis_date}</span>
+                                    </div>
+                                </div>
+                                <div className="w-24 flex flex-col">
+
+                                    <Button onClick={handleSave} color={ isSaved ? "default" : "primary"} disabled={isSaved}>{
+                                         isSaved ? "Saved" : "Save"
+                                    }</Button>
+
+
+                                </div>
+                            </div>
+                            <ReportTable products={showData.analyze?.top_infringing_products}/>
+                            <Assessment assessment={showData.analyze?.overall_risk_assessment} />
+
+                    </div>
+                )
+
             }
         </>
     )
@@ -125,7 +193,63 @@ const Assessment = ({ assessment } : {assessment: string|undefined}) => {
         </>
     )
 }
+const DataListModal = ({items,handleShowData} : {items:PatentAnalysis[] ,handleShowData : Function}) => {
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [scrollBehavior, setScrollBehavior] = React.useState("inside");
 
+    return (
+        <>
+            <Button color="primary" onPress={onOpen}>Report's Records</Button>
+            <Modal
+                size="4xl"
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                scrollBehavior={scrollBehavior}
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">
+                                Records
+                            </ModalHeader>
+                            <ModalBody>
+                                {
+                                    items.map((item,index) => {
+                                        return (
+                                            <div key={index} className="flex flex-row  justify-between items-center">
+                                                <div>
+                                                    { item.createdAt }
+                                                </div>
+                                                <div>
+                                                    Patent : { item.patent_id }
+                                                </div>
+                                                <div>
+                                                    Company : { item.company_name }
+                                                </div>
+                                                <Button color="primary" onClick={() => {
+                                                    handleShowData(item)
+                                                    onClose()
+                                                }}>
+                                                    Button
+                                                </Button>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                </Button>
+
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
+    )
+}
 const ExplanationModal = ({name, content} : {name:string, content : string}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 

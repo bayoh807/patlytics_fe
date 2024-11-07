@@ -23,9 +23,7 @@ export default function Index() {
         {
             isSubmit && ( <Spinner size="xl" />)
         }
-        {
-            report && ( <Report data={report}/>)
-        }
+        <Report data={report}/>
     </section>
   );
 }

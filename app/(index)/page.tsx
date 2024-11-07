@@ -6,11 +6,10 @@ import React, {  useState } from 'react'
 import {Spinner} from "@nextui-org/react";
 import Logo from "@/public/Logo.webp"
 export default function Index() {
-    const [report, setReport] = useState({});
+    const [report, setReport] = useState(null);
     const [isSubmit, setIsSubmit] = useState(false);
     const handleGetReport = async (queryString : string) => {
-        setIsSubmit(true)
-        setReport({})
+        await setIsSubmit(true)
         const response = await fetch(`/api/report?${queryString}`);
         const result = await response.json();
         await setReport(result)
@@ -23,7 +22,7 @@ export default function Index() {
         {
             isSubmit && ( <Spinner size="xl" />)
         }
-        <Report data={report}/>
+        {report && (<Report data={report}/>)}
     </section>
   );
 }

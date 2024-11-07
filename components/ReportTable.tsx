@@ -25,11 +25,12 @@ interface InfringingProduct {
     relevant_claims: number[];
     specific_features: string[];
 }
-const Report = ({data} : { data : PatentAnalysis }) => {
+const Report = ({data} : { data ?: PatentAnalysis }) => {
 
     const [localData, setLocalData] = useState([]);
     const [isSaved, setIsSaved] = useState(false);
-    const [showData, setShowData] = useState<PatentAnalysis>(data);
+    const [showData, setShowData] = useState<PatentAnalysis>(null);
+
     const getLocalData = () : Array<any>=> {
         let storageData = localStorage.getItem("reports")
 
@@ -49,18 +50,11 @@ const Report = ({data} : { data : PatentAnalysis }) => {
         setShowData(item)
     }
 
-    useEffect(() => {
-        return () => {
-            console.log(1)
-
-        };
-    }, [showData]);
 
     useEffect(() => {
         return () => {
-            setShowData(data)
             setIsSaved(false)
-
+            setShowData(data)
         };
     }, [data]);
 
@@ -87,7 +81,7 @@ const Report = ({data} : { data : PatentAnalysis }) => {
             }
 
             {
-                showData?.analysis_date && (
+                showData && (
                     <div className="pt-3 max-w-[800px] w-[100%]">
 
 
@@ -99,9 +93,9 @@ const Report = ({data} : { data : PatentAnalysis }) => {
                                         <span>Date:</span>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span>{data.patent_id}</span>
-                                        <span>{data.company_name}</span>
-                                        <span>{data.analysis_date}</span>
+                                        <span>{showData.patent_id}</span>
+                                        <span>{showData.company_name}</span>
+                                        <span>{showData.analysis_date}</span>
                                     </div>
                                 </div>
                                 <div className="w-24 flex flex-col">
@@ -147,7 +141,7 @@ const  ReportTable = ({ products }: { products: { [key: string]: InfringingProdu
                                     <TableColumn>Explanation</TableColumn>
                                 </TableHeader>
                                 <TableBody>
-                                    {Object.values(products).map((product, index) => (
+                                    {Object.values(products ?? {}).map((product, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{product.product_name}</TableCell>
                                             <TableCell>{product.infringement_likelihood}</TableCell>
